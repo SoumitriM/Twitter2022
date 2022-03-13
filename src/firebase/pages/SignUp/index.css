@@ -1,0 +1,9 @@
+.signupContainer {
+    width: 100%;
+    height: 70%;
+    padding: 2%;
+    justify-content: center;
+}
+.textField {
+    width: 100%;
+}
