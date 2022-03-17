@@ -18,7 +18,8 @@ const NewTweet = () => {
 
     useEffect(()=>{
         setUser(auth().currentUser);
-        console.log('dd', auth().currentUser, auth().currentUser.email);
+        console.log('dd', auth().currentUser);
+        console.log(user)
     }, []);
 
 

@@ -17,6 +17,8 @@ const Tweet = (props) => {
   const [openReplyDialog, setOpenReplyDialog] = useState(false);
   const [replyData, setReplyData] = useState([]);
   const [user, setUser] = useState([]);
+  const [currUser, setCurrUser] = useState({});
+  const [profilePic, setProfilePic] = useState();
   const [firstReply, setFirstReply] = useState(false);
   let tweetTime = new Date();
   if (parentId && parentId !== '') {
@@ -25,20 +27,20 @@ const Tweet = (props) => {
 
   console.log(newIdString);
   useEffect(() => {
-    setUser(auth().currentUser);
+    setCurrUser(auth().currentUser);
     //console.log('dd', auth().currentUser, auth().currentUser.email);
   }, [item]);
 
-  // useEffect(() => {
-  //   db.ref(`users/${user.userId}`).on("value", (snapshot) => {
-  //     //const obj = snapshot[0].val();
-  //     console.log('snapshot', snapshot);
-  //     const newObj = Object.assign({}, user);
-  //     setUser(newObj);
-  //     console.log('userDet', newObj);
-  //     // console.log(newObj);
-  //   });
-  // }, [item]);
+  useEffect(() => {
+    db.ref(`users/${currUser.uid}`).on("value", (snapshot) => {
+      //const obj = snapshot[0].val();
+      console.log('snapshot', snapshot.val());
+      const newObj = Object.assign({}, user);
+      setUser(snapshot.val());
+      console.log('userDet', newObj);
+      // console.log(newObj);
+    });
+  }, [item]);
 
   useEffect(() => {
     tweetTime = item.time;
@@ -78,8 +80,8 @@ const Tweet = (props) => {
   const handleReplyMessage = (message) => {
     const { item } = props;
     const newReply = {
-      username: user.displayName,
-      userId: user.email,
+      username: currUser.displayname,
+      userId: currUser.email,
       time: new Date().toJSON(),
       tweet: message,
       image: false
@@ -109,7 +111,7 @@ const Tweet = (props) => {
     <Card onClick={(e) => showTweetDetailsHandler(e)}>
       <Grid container>
         <Grid item xs={2} md={2}>
-          {/* <img className="profile-pic" src={user.PhotoUrl} alt="user pic" /> */}
+          {/* <img className="profile-pic" src={user.photoUrl} alt="user pic" /> */}
         </Grid>
         <Grid item xs={10} md={10}>
           <div className="tweet-header">

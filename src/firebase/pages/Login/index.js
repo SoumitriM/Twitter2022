@@ -24,7 +24,6 @@ export default function SignUp() {
     console.log("trigg");
     // this.setState({ error: "" });
     const x =  await signin(email, password);
-     alert('signed in');
      history.push("/");
     // try {
      
@@ -33,13 +32,8 @@ export default function SignUp() {
     // }
   };
 
-  const googleSignIn = async (e) => {
-    // try {
-    //   await signInWithGoogle();
-    // } catch (error) {
-    //   // this.setState({ error: error.message });
-    // }
-    await signInWithGoogle();
+  const redirectToSignUpPAge = async (e) => {
+    history.push("/register");
   };
   return (
     <div className="container">
@@ -50,7 +44,6 @@ export default function SignUp() {
           </DialogTitle>
           <DialogContent>
             <TextField
-              id="outlined-name"
               label="Email ID"
               className="textField"
               value={email}
@@ -59,7 +52,6 @@ export default function SignUp() {
               variant="outlined"
             />
             <TextField
-              id="outlined-name"
               label="Password"
               className="textField"
               value={password}
@@ -70,7 +62,7 @@ export default function SignUp() {
             />
           </DialogContent>
           <DialogActions>
-            <TwitterButton label="Login with Google" onClick={googleSignIn} />
+            <TwitterButton label="Create a New Account" onClick={redirectToSignUpPAge} />
             <TwitterButton label="Login" onClick={handleSubmit}/>
           </DialogActions>
 

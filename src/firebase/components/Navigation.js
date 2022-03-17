@@ -6,6 +6,7 @@ import Card from "../customComponents/Card";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { navigationList } from "../constants/navigationList";
+import { signOut } from "../services/auth";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -40,6 +41,9 @@ const Navigation = () => {
             <ListItemText primary={item.name} />
           </ListItem>
           ))}
+          <ListItem button onClick={signOut}>
+            <ListItemText primary="Log Out" />
+          </ListItem>
         </List>
       </div>
     </Card>

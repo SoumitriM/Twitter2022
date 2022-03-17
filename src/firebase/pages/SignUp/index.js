@@ -29,8 +29,8 @@ export default function SignUp() {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
-  const handlePhotoChange = (e) => {
-    setPhoto(e.target.value);
+  const handlePhotoUpload = (e) => {
+    setPhoto(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
@@ -47,13 +47,8 @@ export default function SignUp() {
     // }
   };
 
-  const googleSignIn = async (e) => {
-    // try {
-    //   await signInWithGoogle();
-    // } catch (error) {
-    //   // this.setState({ error: error.message });
-    // }
-    await signInWithGoogle();
+  const redirectToLoginPage = async (e) => {
+    history.push("/login");
   };
   return (
     <div className="container">
@@ -102,16 +97,12 @@ export default function SignUp() {
             />
             <TextField
               id="outlined-name"
-              label="URL"
-              className="textField"
-              value={photo}
-              onChange={handlePhotoChange}
-              margin="normal"
-              variant="outlined"
+              type="file"
+              onChange={handlePhotoUpload}
             />
           </DialogContent>
           <DialogActions>
-            <TwitterButton label="Sign Up with Google" onClick={googleSignIn} />
+            <TwitterButton label="Sign Up with Google" onClick={redirectToLoginPage} />
             <TwitterButton label="Register" onClick={handleSubmit}/>
           </DialogActions>
 

@@ -27,6 +27,7 @@ export default function Homepage() {
     }
   }
   useEffect(() => {
+    console.log('you are in homepage');
     fetchMoviesHandler();
   }, []);
 
