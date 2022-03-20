@@ -4,7 +4,6 @@ export const timestamp = (tweetTime) =>{
     var date1 = new Date(tweetTime);
     var date2 = new Date();
     var timestamp = "";
-    console.log('tweet time', tweetTime);
     // To calculate the time difference of two dates
     var Difference_In_Time = date2.getTime() - date1.getTime();
       

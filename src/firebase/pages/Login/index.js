@@ -21,7 +21,6 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("trigg");
     // this.setState({ error: "" });
     const x =  await signin(email, password);
      history.push("/");

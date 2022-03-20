@@ -23,7 +23,6 @@ export default function ReplyDialog(props) {
 
     const newReplyHandler = (e) => {
         e.preventDefault();
-        console.log(newTweetInput.current.value);
         onReply(newTweetInput.current.value);
     }
 

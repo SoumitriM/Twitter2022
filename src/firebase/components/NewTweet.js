@@ -14,12 +14,10 @@ const NewTweet = () => {
     var tweet = "";
     const [image, setImage] = useState(null);
     const [isImage, setIsImage] = useState(false);
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState();
 
     useEffect(()=>{
         setUser(auth().currentUser);
-        console.log('dd', auth().currentUser);
-        console.log(user)
     }, []);
 
 
@@ -32,7 +30,6 @@ const NewTweet = () => {
 
     const newTweetHandler = (e) => {
         e.preventDefault();
-        console.log('in new tweet', user.displayName);
         if (isImage === true) {
             const uploadTask = storage.ref(`images/${image.name}`).put(image);
             setIsImage(false);
@@ -40,7 +37,6 @@ const NewTweet = () => {
                 "state_changed",
                 snapshot => { },
                 error => {
-                    console.log(error)
                 },
                 () => {
                     storage.ref("images").child(image.name).getDownloadURL()

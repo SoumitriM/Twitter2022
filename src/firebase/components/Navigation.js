@@ -25,6 +25,12 @@ const Navigation = () => {
   const history = useHistory();
   const classes = useStyles();
 
+  const handleSignOut = () => {
+    signOut().then((res) => {
+      history.go("/login");
+    });
+  }
+
   const handlePageRedirect = (path) => {
     history.push(path);
   }
@@ -41,7 +47,7 @@ const Navigation = () => {
             <ListItemText primary={item.name} />
           </ListItem>
           ))}
-          <ListItem button onClick={signOut}>
+          <ListItem button onClick={handleSignOut}>
             <ListItemText primary="Log Out" />
           </ListItem>
         </List>

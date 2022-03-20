@@ -1,24 +1,22 @@
 import { auth, db } from './index';
 import { storage } from './index';
-import { useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 export const signup = (email, password, username, userId, photoUrl) => {
   return auth()
     .createUserWithEmailAndPassword(email, password)
     .then((res) => {
-      console.log(res);
       const user = auth().currentUser;
-      console.log(email, user.uid, password, username, userId, photoUrl);
       putImage( email, user.uid, username, userId, photoUrl);
       return user.updateProfile({
         email: email,
         displayName: username,
+        uid: userId
       });
     });
 }
 
 function writeUserData(user) {
   db.ref('users/' + user.uid).set(user).catch(error => {
-    console.log(error.message);
   });
 }
 function putImage( email, uid, username, userId, image) {
@@ -56,6 +54,5 @@ export function signInWithGoogle() {
   return auth().signInWithPopup(provider);
 }
 export function signOut() {
-  console.log('here');
   return auth().signOut();
 }

@@ -13,7 +13,6 @@ export default function Homepage() {
         let tweetList = [];
         snapshot.forEach((snap) => {
           let obj2 = {};
-          console.log('sna',snap.key);
           Object.assign(obj2, snap.val(), {id: snap.key});
           tweetList.push(obj2);
         });
@@ -27,7 +26,6 @@ export default function Homepage() {
     }
   }
   useEffect(() => {
-    console.log('you are in homepage');
     fetchMoviesHandler();
   }, []);
 

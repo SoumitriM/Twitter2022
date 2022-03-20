@@ -9,10 +9,8 @@ export default function Status () {
     let {userName, statusId} = useParams();
     const [item, setItem] = useState({});
 
-    console.log('ddd');
     const fetchStatusHandler = async () => {
         db.ref(`tweets/${statusId}`).on("value", (snapshot) => {
-            console.log("pp", snapshot);
             setItem({...snapshot.val()})
         })
     }

@@ -16,7 +16,7 @@ const Tweet = (props) => {
   const [time, setTime] = useState("");
   const [openReplyDialog, setOpenReplyDialog] = useState(false);
   const [replyData, setReplyData] = useState([]);
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState({});
   const [currUser, setCurrUser] = useState({});
   const [profilePic, setProfilePic] = useState();
   const [firstReply, setFirstReply] = useState(false);
@@ -25,22 +25,13 @@ const Tweet = (props) => {
     var newIdString = `${parentId}/replies/${item.id}`;
   } else var newIdString = `${item.id}`;
 
-  console.log(newIdString);
   useEffect(() => {
     setCurrUser(auth().currentUser);
-    //console.log('dd', auth().currentUser, auth().currentUser.email);
   }, [item]);
 
-  useEffect(() => {
-    db.ref(`users/${currUser.uid}`).on("value", (snapshot) => {
-      //const obj = snapshot[0].val();
-      console.log('snapshot', snapshot.val());
-      const newObj = Object.assign({}, user);
-      setUser(snapshot.val());
-      console.log('userDet', newObj);
-      // console.log(newObj);
-    });
-  }, [item]);
+  // useEffect(() => {
+  //   handleProfilePicture();
+  // }, [item]);
 
   useEffect(() => {
     tweetTime = item.time;
@@ -71,34 +62,36 @@ const Tweet = (props) => {
     };
 
   }
+
+  // const handleProfilePicture = () => {
+  //   db.ref('users/'+ item.userId).on("value", (snapshot) => {
+  //   });
+  // }
+
+
   const handleOpenReplyDialog = (e) => {
     e.stopPropagation();
-    console.log(e.target);
     setOpenReplyDialog(true);
   }
 
   const handleReplyMessage = (message) => {
     const { item } = props;
     const newReply = {
-      username: currUser.displayname,
       userId: currUser.email,
       time: new Date().toJSON(),
       tweet: message,
       image: false
     }
-    addTweetHandler(newReply, item.id);
+    addReplyHandler(newReply, item.id);
   }
 
   const showTweetDetailsHandler = (e) => {
     e.nativeEvent.stopImmediatePropagation();
-    console.log("kk", e.preventDefault());
     history.push(`/${item.username}/${item.id}`);
   }
 
-  async function addTweetHandler(newReply, id) {
-    console.log("dd", newIdString);
+  async function addReplyHandler(newReply, id) {
     const replyRef = db.ref(`tweets/${newIdString}/replies`).push();
-    console.log(replyRef);
     const obj = {};
     Object.assign(obj, newReply, { id: replyRef.key });
     replyRef.set(newReply);
@@ -111,7 +104,7 @@ const Tweet = (props) => {
     <Card onClick={(e) => showTweetDetailsHandler(e)}>
       <Grid container>
         <Grid item xs={2} md={2}>
-          {/* <img className="profile-pic" src={user.photoUrl} alt="user pic" /> */}
+          <img className="profile-pic" src={profilePic} alt="user pic" />
         </Grid>
         <Grid item xs={10} md={10}>
           <div className="tweet-header">

@@ -35,7 +35,6 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("trigg");
     // this.setState({ error: "" });
     const x =  await signup(email, password, username, userId, photo);
      alert('signed up');
@@ -102,7 +101,7 @@ export default function SignUp() {
             />
           </DialogContent>
           <DialogActions>
-            <TwitterButton label="Sign Up with Google" onClick={redirectToLoginPage} />
+            <TwitterButton label="Login" onClick={redirectToLoginPage} />
             <TwitterButton label="Register" onClick={handleSubmit}/>
           </DialogActions>
 
