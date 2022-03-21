@@ -34,7 +34,7 @@ export default function Homepage() {
       <PageHeader title="Home" />
       <NewTweet />
       <div>
-        {tweets.map((item) => <Tweet item={item} homepage />)}
+        {tweets.map((item) => <Tweet key={item.id} item={item} homepage />)}
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { Grid } from '@material-ui/core';
-import profilePic from '../constants/profile_pic.jpg';
+import profilePic from '../constants/dummy-profile-pic.png';
 import ReplyDialog from './ReplyDialog';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -18,9 +18,11 @@ const Tweet = (props) => {
   const [replyData, setReplyData] = useState([]);
   const [user, setUser] = useState({});
   const [currUser, setCurrUser] = useState({});
+  const [currUserDet, setCurrUserDet] = useState({});
   const [profilePic, setProfilePic] = useState();
   const [firstReply, setFirstReply] = useState(false);
   let tweetTime = new Date();
+  const [dp, setDp] = useState(profilePic);
   if (parentId && parentId !== '') {
     var newIdString = `${parentId}/replies/${item.id}`;
   } else var newIdString = `${item.id}`;
@@ -29,9 +31,25 @@ const Tweet = (props) => {
     setCurrUser(auth().currentUser);
   }, [item]);
 
-  // useEffect(() => {
-  //   handleProfilePicture();
-  // }, [item]);
+  useEffect(() => {
+    db.ref('users/' + auth().currentUser.uid).on("value", snapshot => {
+      const userDetail = snapshot.val();
+      setCurrUserDet(userDetail);
+      // console.log(userDetail);
+    })
+  },[item]);
+  useEffect(() => {
+    db.ref('users/' + item.uid).on("value", snapshot => {
+      let ddp = snapshot.val();
+      if(ddp !== null && 'photoUrl' in ddp){
+        setDp(ddp.photoUrl);
+        console.log('dp', dp);
+      }
+
+      // setCurrUserDet(userDetail);
+      // console.log(userDetail);
+    })
+  },[item]);
 
   useEffect(() => {
     tweetTime = item.time;
@@ -48,6 +66,7 @@ const Tweet = (props) => {
   }, [item]);
 
   const likeHandler = (event) => {
+    console.log('userdet',currUserDet);
     event.stopPropagation();
     let newLikeCount = 0;
     if (like === true) {
@@ -77,11 +96,14 @@ const Tweet = (props) => {
   const handleReplyMessage = (message) => {
     const { item } = props;
     const newReply = {
-      userId: currUser.email,
+      userId: currUserDet.userId,
+      uid: currUserDet.uid,
+      username: currUserDet.username,
       time: new Date().toJSON(),
       tweet: message,
       image: false
     }
+    console.log(newReply);
     addReplyHandler(newReply, item.id);
   }
 
@@ -104,7 +126,7 @@ const Tweet = (props) => {
     <Card onClick={(e) => showTweetDetailsHandler(e)}>
       <Grid container>
         <Grid item xs={2} md={2}>
-          <img className="profile-pic" src={profilePic} alt="user pic" />
+          <img className="profile-pic" src={(dp !== "") || profilePic} alt="user pic" />
         </Grid>
         <Grid item xs={10} md={10}>
           <div className="tweet-header">

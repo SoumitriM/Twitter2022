@@ -9,8 +9,7 @@ export const signup = (email, password, username, userId, photoUrl) => {
       putImage( email, user.uid, username, userId, photoUrl);
       return user.updateProfile({
         email: email,
-        displayName: username,
-        uid: userId
+        displayName: username
       });
     });
 }

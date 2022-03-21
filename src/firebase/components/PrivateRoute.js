@@ -73,7 +73,7 @@ export default function PrivateRoute(props) {
             // icon: <MoreOutlinedIcon />
         },
         {
-            name: "SignUp",
+            name: "Login",
             path: "/login",
             exact: true,
             component: Login
@@ -83,9 +83,10 @@ export default function PrivateRoute(props) {
     ];
     return (
         <React.Fragment>
-            {privateRoutes.map(({ component: Component, ...rest }) => (
+            {privateRoutes.map(({ component: Component, name, ...rest }) => (
                 <Route
                     {...rest}
+                    key={name}
                     render={(props) => isAuthenticated === true ? (
                         <Component />
                     ) : (

@@ -40,7 +40,7 @@ const Navigation = () => {
       <div className={classes.root}>
         <List component="nav" aria-label="main mailbox folders">
           {navigationList.map((item) => (
-            <ListItem button onClick={()=> handlePageRedirect(item.path)}>
+            <ListItem key={item.name} button onClick={()=> handlePageRedirect(item.path)}>
             <ListItemIcon>
               {item.icon}
             </ListItemIcon>

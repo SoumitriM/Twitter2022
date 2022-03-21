@@ -55,7 +55,7 @@ export const navigationList = [
     },
     {
         name: "Profile",
-        path:"/bookmarks",
+        path:"/profile",
         // exact: true,
         icon: <PersonOutlineIcon />
     },
