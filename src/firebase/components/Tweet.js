@@ -43,7 +43,7 @@ const Tweet = (props) => {
       let ddp = snapshot.val();
       if(ddp !== null && 'photoUrl' in ddp){
         setDp(ddp.photoUrl);
-        console.log('dp', dp);
+        console.log('dp', ddp.photoUrl, item.uid);
       }
 
       // setCurrUserDet(userDetail);
@@ -126,7 +126,7 @@ const Tweet = (props) => {
     <Card onClick={(e) => showTweetDetailsHandler(e)}>
       <Grid container>
         <Grid item xs={2} md={2}>
-          <img className="profile-pic" src={(dp !== "") || profilePic} alt="user pic" />
+          <img className="profile-pic" src={dp} alt="user pic" />
         </Grid>
         <Grid item xs={10} md={10}>
           <div className="tweet-header">

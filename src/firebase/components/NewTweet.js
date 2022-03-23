@@ -1,5 +1,5 @@
 import { Grid } from '@material-ui/core';
-import profilePic from '../constants/profile_pic.jpg';
+import profilePic from '../constants/dummy-profile-pic.png';
 import { makeStyles } from '@material-ui/core';
 import Card from '../customComponents/Card';
 import { db, auth } from '../services/index';
@@ -91,10 +91,9 @@ const NewTweet = () => {
           <img className="profile-pic" src={currUserDet.photoUrl} alt="profile-picture" />
         </Grid>
         <Grid item xs={10} md={10}>
-          <div className=" tweet-form">
+          <div className="tweet-form">
             <input type="text" name="tweet" placeholder="What's Happening?" ref={newTweetInput} />
-            <ActionBar />
-            <TwitterButton onClick={newTweetHandler} label="Tweet" />
+            <ActionBar onTweetBtnClick={newTweetHandler} />
           </div>
           {isImage && <p>{image.name}</p>}
         </Grid>

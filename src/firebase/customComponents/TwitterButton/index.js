@@ -5,7 +5,6 @@ const useStyles = makeStyles({
     button: {
         borderRadius: "25px",
         textTransform: "none",
-        float: "right"
     }
 
 });

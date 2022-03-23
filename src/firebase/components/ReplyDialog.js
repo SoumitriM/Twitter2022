@@ -6,55 +6,48 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 import Card from '../customComponents/Card';
 import TwitterButton from '../customComponents/TwitterButton';
+import ActionBar from '../customComponents/ActionBar';
 
 export default function ReplyDialog(props) {
-    const { openDialog, onReply } = props;
-    const [isImage, setIsImage] = useState(false);
-    const [image, setImage] = useState(null);
+  const { openDialog, onReply } = props;
+  const [isImage, setIsImage] = useState(false);
+  const [image, setImage] = useState(null);
 
-    const newTweetInput = useRef("");
+  const newTweetInput = useRef("");
 
-    const handleImageUpload = (e) => {
-        if (e.target.files[0]) {
-            setImage(e.target.files[0]);
-            setIsImage(true);
-        }
+  const handleImageUpload = (e) => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+      setIsImage(true);
     }
+  }
 
-    const newReplyHandler = (e) => {
-        e.preventDefault();
-        onReply(newTweetInput.current.value);
-    }
+  const newReplyHandler = (e) => {
+    e.preventDefault();
+    onReply(newTweetInput.current.value);
+  }
 
-    return (
-        <div>
-            <Dialog open={openDialog} >
-                <div className="replyDialog">
-                <Card>
-                    <Grid container>
-                        <Grid item xs={2} md={2}>
-                            <img className="profile-pic" src={profilePic} alt="profile-picture" />
-                        </Grid>
-                        <Grid item xs={10} md={10}>
-                            <div className=" tweet-form">
-                                <input type="text" name="tweet" placeholder="Type your reply here" ref={newTweetInput} />
-                                <div className="new-tweet-icons">
-                                    <ul>
-                                        <li><label><ion-icon name="image-outline"></ion-icon></label>
-                                            <input type="file" id="file" onChange={handleImageUpload} style={{ "display": "none" }} /></li>
-                                        <li><ion-icon name="camera-outline"></ion-icon></li>
-                                        <li><ion-icon name="happy-outline"></ion-icon></li>
-                                        <TwitterButton onClick={newReplyHandler} label="Reply" />
-                                    </ul>
-                                </div>
-                            </div>
-                            {isImage && <p>{image.name}</p>}
-                        </Grid>
-                    </Grid>
-                </Card>
-
+  return (
+    <div>
+      <Dialog open={openDialog} >
+        <div className="replyDialog">
+          <Card>
+            <Grid container>
+              <Grid item xs={2} md={2}>
+                <img className="profile-pic" src={profilePic} alt="profile-picture" />
+              </Grid>
+              <Grid item xs={10} md={10}>
+                <div className=" tweet-form">
+                  <input type="text" name="tweet" placeholder="Type your reply here" ref={newTweetInput} />
+                  <ActionBar onTweetBtnClick={newReplyHandler} onImageClick={handleImageUpload}/>
                 </div>
-            </Dialog>
+                {isImage && <p>{image.name}</p>}
+              </Grid>
+            </Grid>
+          </Card>
+
         </div>
-    );
+      </Dialog>
+    </div>
+  );
 }

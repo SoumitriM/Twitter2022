@@ -4,6 +4,7 @@ import Homepage from '../pages/Homepage';
 import Status from "../pages/Status";
 import SignUp from "../pages/SignUp";
 import Login from "../pages/Login";
+import Profile from "../pages/Profile";
 export default function PrivateRoute(props) {
     const { isAuthenticated } = props;
     let { userName, statusId } = useParams();
@@ -51,7 +52,7 @@ export default function PrivateRoute(props) {
             path: `/:userName`,
             exact: true,
             // icon: <PersonOutlineIcon />
-            // component: <Status />
+            component: Profile
         },
         {
             name: "Status",
