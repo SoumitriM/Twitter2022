@@ -1,11 +1,15 @@
 import { useEffect } from "react";
 import CameraEnhanceOutlinedIcon from '@material-ui/icons/CameraEnhanceOutlined';
+import { Widgets } from "@material-ui/icons";
 
-export default function RoundButton () {
-    // useEffect(() => {
-    //     getIcon(iconId)
-    // })
-    return(
-        <div className="roundButton"><CameraEnhanceOutlinedIcon/></div>
-    )
+export default function RoundButton({onChange}) {
+
+  return (
+    <>
+    <input type="file" id="file" hidden onChange={onChange}/>
+    <div className="roundButton">
+      <CameraEnhanceOutlinedIcon/>
+    </div>
+    </>
+  )
 }

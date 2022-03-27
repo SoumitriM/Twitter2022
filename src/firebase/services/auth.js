@@ -1,5 +1,4 @@
-import { auth, db } from './index';
-import { storage } from './index';
+import { auth, db , storage} from './index';
 import { Redirect } from 'react-router-dom';
 export const signup = (email, password, username, userId, photoUrl) => {
   return auth()

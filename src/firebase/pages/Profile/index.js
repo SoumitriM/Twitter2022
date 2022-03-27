@@ -11,24 +11,28 @@ export default function Profile() {
   const [openEditModal, setOpenEditModal] = useState(false);
 
   useEffect(() => {
-    db.ref('users/' + auth().currentUser.uid).on("value", snapshot => {
+    db.ref(`users/${auth().currentUser.uid}`).on("value", snapshot => {
       const userDetail = snapshot.val();
-      setCurrUserDet(userDetail);
-      // console.log(userDetail);
+      setCurrUserDet({...userDetail, coverPicture: coverPicture});
+      console.log(userDetail);
     })
   }, []);
 
   const handleCLoseModal = () => {
     setOpenEditModal(false);
   }
-  const handleUserDetailsUpdate = () => {
-    console.log('Data saved');
-  }
 
   const handleEditModal = () => {
     console.log('pe');
     setOpenEditModal(true);
   }
+
+  const updateUserDetails = (userData) => {
+    const obj = {};
+    obj[`users/${auth().currentUser.uid}`] = userData;
+    db.ref().update(obj).then(() => alert('updated')).catch((error) => { });
+  };
+
   return (
     <div>
       <PageHeader title={currUserDet.username} subheading="3 Tweets" />
@@ -50,12 +54,12 @@ export default function Profile() {
         </div>
       </Card>
       <EditModal 
+        coverPicture={coverPicture}
         open={openEditModal}
         onClose={handleCLoseModal}
-        onSave={handleUserDetailsUpdate}
-        coverPicture={coverPicture}
-        profilePicture={currUserDet.photoUrl || blankDp}
-        />
+        onSave={updateUserDetails}
+        profileDetails={currUserDet}
+      />
     </div>
   );
 }
