@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Tweet from "../../components/Tweet";
+import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
 import Card from '../../customComponents/Card';
 import { db, auth } from "../../services/index";
 import PageHeader from '../../customComponents/PageHeader';
@@ -13,7 +14,7 @@ export default function Profile() {
   useEffect(() => {
     db.ref(`users/${auth().currentUser.uid}`).on("value", snapshot => {
       const userDetail = snapshot.val();
-      setCurrUserDet({...userDetail, coverPicture: coverPicture});
+      setCurrUserDet({...userDetail});
       console.log(userDetail);
     })
   }, []);
@@ -23,7 +24,6 @@ export default function Profile() {
   }
 
   const handleEditModal = () => {
-    console.log('pe');
     setOpenEditModal(true);
   }
 
@@ -31,6 +31,7 @@ export default function Profile() {
     const obj = {};
     obj[`users/${auth().currentUser.uid}`] = userData;
     db.ref().update(obj).then(() => alert('updated')).catch((error) => { });
+    handleCLoseModal();
   };
 
   return (
@@ -38,7 +39,7 @@ export default function Profile() {
       <PageHeader title={currUserDet.username} subheading="3 Tweets" />
       <Card>
         <div className="userProfile">
-          <img className="profileCoverPhoto" src={coverPicture} alt="cover photo" />
+          <img className="profileCoverPhoto" src={currUserDet.coverPicture || coverPicture} alt="cover photo" />
           <img className="displayPicture" src={currUserDet.photoUrl || blankDp} alt="profile picture" />
           <div className="buttonSection">
             <div className="whiteBtn" onClick={handleEditModal}>Edit Profile</div>
@@ -46,10 +47,15 @@ export default function Profile() {
           <div className="userDetails">
             <p className="tweet-username">{currUserDet.username}</p>
             <p className="tweet-userId">@{currUserDet.userId}</p>
+            <div className="additionalUserDetails">
+            {currUserDet.bio && <p>{currUserDet.bio}</p>}
+            {currUserDet.location && <p className='greyFont'><LocationOnOutlinedIcon/>{currUserDet.location}</p>}
             <div className="followDetails">
               <p className="greyFont"><span className="blackFont">5</span> Following</p>
               <p className="greyFont"><span className="blackFont">10</span> Followers</p>
             </div>
+            </div>
+            
           </div>
         </div>
       </Card>

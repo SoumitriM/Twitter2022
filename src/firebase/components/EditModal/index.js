@@ -1,19 +1,17 @@
 import { useRef, useState, useEffect } from 'react';
 import { storage } from '../../services/index';
-import { Button } from '@material-ui/core';
 import { Dialog } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import Card from '../../customComponents/Card';
 import RoundButton from '../../customComponents/RoundButton';
 import TwitterButton from '../../customComponents/TwitterButton';
-
+import sampleDp from '../../constants/blankDp.jpeg';
+import sampleCp from '../../constants/coverPicture.png';
 
 export default function EditModal(props) {
   const { coverPicture, open, onSave, onClose, profileDetails } = props;
-  const [coverPic, setCoverPic] = useState(null);
-  const [image, setImage] = useState(null);
+  const [coverPic, setCoverPic] = useState(sampleCp);
+  const [dp, setDp] = useState(sampleDp);
   const [userDetails, setUserDetails] = useState({});
 
   useEffect(() => {
@@ -25,13 +23,19 @@ export default function EditModal(props) {
   const newLocation = useRef("");
 
   useEffect(() => {
+    if(profileDetails.photoUrl){
+      console.log('i am here');
+      setDp(profileDetails.photoUrl);
+    }
+    if(profileDetails.coverPicture){
+      setCoverPic(profileDetails.coverPicture);
+    }
     setUserDetails(profileDetails);
-    setImage(profileDetails.photoUrl);
-    setCoverPic(coverPicture)
     console.log('ref->', newUserName.current);
-  })
+  }, []);
 
   const handlePictureUpload = (e, type) => {
+    console.log(coverPic);
     if (e.target.files[0]) {
       putImage(e.target.files[0], type);
     }
@@ -39,7 +43,7 @@ export default function EditModal(props) {
 
   function putImage(image, type) {
     let userDetails = {};
-    const uploadTask = storage.ref(`${type}/${profileDetails.uid}`).put(image);
+    const uploadTask = storage.ref(`${type}/${profileDetails.userId}`).put(image);
     uploadTask.on(
       "state_changed",
       snapshot => { },
@@ -47,9 +51,15 @@ export default function EditModal(props) {
         console.log(error)
       },
       () => {
-        storage.ref(`${type}`).child(`${profileDetails.uid}`).getDownloadURL()
+        storage.ref(`${type}`).child(`${profileDetails.userId}`).getDownloadURL()
           .then(url => {
-            type === 'profilepictures' ? setImage(url) : setCoverPic(url);
+            console.log(url, type);
+            if (type === 'profilepictures') {
+              setDp(url);
+            }
+            if (type === 'coverpictures') {
+              setCoverPic(url);
+            }
           })
 
       }
@@ -62,13 +72,23 @@ export default function EditModal(props) {
       ...profileDetails,
       username: newUserName.current.value,
       bio: newBio.current.value,
-      location: newBio.current.value,
+      location: newLocation.current.value,
       coverPicture: coverPic,
-      photoUrl: image
+      photoUrl: dp
     }
+    console.log('saved->', updatedUserDetails);
     onSave(updatedUserDetails);
   }
 
+  const handleCloseModal = () => {
+    onClose();
+    if(profileDetails.photoUrl){
+      setDp(profileDetails.photoUrl);
+    } else setDp(sampleDp);
+    if(profileDetails.coverPicture){
+      setCoverPic(profileDetails.coverPicture);
+    } else setCoverPic(sampleCp);
+  }
 
   return (
     <div>
@@ -76,7 +96,7 @@ export default function EditModal(props) {
         <div className="editModal">
           <div className="editModalHeader">
             <div className="editModalHeaderLeft">
-              <div className="closeIcon" onClick={onClose}><CloseIcon /></div>
+              <div className="closeIcon" onClick={handleCloseModal}><CloseIcon /></div>
               <h2>Edit Profile</h2>
             </div>
             <div className="editModalHeaderRight">
@@ -89,7 +109,7 @@ export default function EditModal(props) {
               <div className="uploadImageBtn"><RoundButton onChange={(e) => handlePictureUpload(e, 'coverpictures')} /></div>
             </div>
             <div className="uploadDisplayPicture">
-              <img className="editModalDisplayPicture" src={image} alt="profile picture" />
+              <img className="editModalDisplayPicture" src={dp} alt="profile picture" />
               <div className="uploadImageBtn"><RoundButton onChange={(e) => handlePictureUpload(e, 'profilepictures')} /></div>
             </div>
           </div>
