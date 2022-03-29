@@ -163,11 +163,11 @@ const Tweet = (props) => {
             </div>
           </Grid>
         </Grid>
-      </Card>
-      <ReplyDialog openDialog={openReplyDialog} onReply={handleReplyMessage} />
-      {showReplies && replyData.length > 0 && replyData.map((reply) => (
+        {showReplies && replyData.length > 0 && replyData.map((reply) => (
         <Tweet item={reply} showReplies="false" parentId={newIdString} />
       ))}
+      </Card>
+      <ReplyDialog openDialog={openReplyDialog} onReply={handleReplyMessage} />
     </div>
   )
 };

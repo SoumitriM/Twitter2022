@@ -69,6 +69,35 @@ html {
 .additionalUserDetails {
   line-height: 2rem;
 }
+/*-------------------------SPINNER --------------------------------------*/
+.spinner::before {
+  content: "";
+  animation: 1s linear infinite spin;
+  height: 50px;
+  width: 50px;
+  border: 8px solid rgb(227, 229, 235);
+  border-bottom-color: rgb(87, 149, 201);;
+  border-radius: 50%;
+  justify-content: center;
+  transform: translate(50%,50%);
+  position: absolute;
+}
+.spinner {
+  height: 400px;
+  width: 400px;
+  position: relative;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+  
+}
+
 /*-------------------------EDIT MODAL ------------------------------------*/
 
 .roundButton {
@@ -85,7 +114,8 @@ html {
 }
 
 .editModal {
-  height: 700px;
+  height: 690px;
+  width: 600px;
 }
 
 .editModalHeader {
@@ -191,7 +221,7 @@ input:focus {
 .profile-pic {
   transform: translateX(40%);
   width: 3rem;
-  height: auto;
+  height: 3rem;
   border-radius: 50%;
 }
 .tweet-form {

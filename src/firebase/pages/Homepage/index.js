@@ -3,6 +3,7 @@ import NewTweet from "../../components/NewTweet";
 import Tweet from "../../components/Tweet";
 import {db} from "../../services/index";
 import PageHeader from '../../customComponents/PageHeader';
+import { Spinner } from '../../customComponents/Spinner';
 
 export default function Homepage() {
   const [tweets, setTweets] = useState([]);
@@ -18,7 +19,7 @@ export default function Homepage() {
         });
         const sortedTweetList = tweetList.sort(function (a, b) {
           return new Date(b.time) - new Date(a.time);
-        })
+        });
         setTweets(sortedTweetList);
       });
     } catch (error) {
@@ -32,6 +33,7 @@ export default function Homepage() {
   return (
     <div>
       <PageHeader title="Home" />
+      <Spinner/>
       <NewTweet />
       <div>
         {tweets.map((item) => <Tweet key={item.id} item={item} homepage />)}

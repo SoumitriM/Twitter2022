@@ -1,40 +1,52 @@
 import { useRef, useState, useEffect } from 'react';
+import { db, auth } from '../../services/index';
 import { storage } from '../../services/index';
 import { Dialog } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import RoundButton from '../../customComponents/RoundButton';
 import TwitterButton from '../../customComponents/TwitterButton';
+import { Spinner } from '../../customComponents/Spinner';
 import sampleDp from '../../constants/blankDp.jpeg';
 import sampleCp from '../../constants/coverPicture.png';
 
 export default function EditModal(props) {
-  const { coverPicture, open, onSave, onClose, profileDetails } = props;
-  const [coverPic, setCoverPic] = useState(sampleCp);
-  const [dp, setDp] = useState(sampleDp);
+  const { open, onSave, onClose, profileDetails } = props;
+  const [coverPic, setCoverPic] = useState(null);
+  const [dp, setDp] = useState(null);
   const [userDetails, setUserDetails] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setUserDetails(profileDetails);
+    setLoading(true);
+    db.ref(`users/${auth().currentUser.uid}`).on("value", snapshot => {
+      const userDetail = snapshot.val();
+      setUserDetails({...userDetail});
+      if(userDetail.photoUrl){
+        console.log('i am here');
+        setDp(userDetail.photoUrl);
+      }
+      if(userDetail.coverPicture){
+        setCoverPic(userDetail.coverPicture);
+      }
+      setLoading(false);
+    })
   }, []);
 
-  const newUserName = useRef("");
+  // useEffect(() => {
+  //   setUserDetails(profileDetails);
+  // }, []);
+
+  const newUserName = useRef(userDetails.username);
   const newBio = useRef("");
   const newLocation = useRef("");
 
   useEffect(() => {
-    if(profileDetails.photoUrl){
-      console.log('i am here');
-      setDp(profileDetails.photoUrl);
-    }
-    if(profileDetails.coverPicture){
-      setCoverPic(profileDetails.coverPicture);
-    }
-    setUserDetails(profileDetails);
-    console.log('ref->', newUserName.current);
-  }, []);
+    console.log('dp', dp);
+  })
 
   const handlePictureUpload = (e, type) => {
+    setLoading(true);
     console.log(coverPic);
     if (e.target.files[0]) {
       putImage(e.target.files[0], type);
@@ -43,7 +55,7 @@ export default function EditModal(props) {
 
   function putImage(image, type) {
     let userDetails = {};
-    const uploadTask = storage.ref(`${type}/${profileDetails.userId}`).put(image);
+    const uploadTask = storage.ref(`${type}/${userDetails.userId}`).put(image);
     uploadTask.on(
       "state_changed",
       snapshot => { },
@@ -51,7 +63,7 @@ export default function EditModal(props) {
         console.log(error)
       },
       () => {
-        storage.ref(`${type}`).child(`${profileDetails.userId}`).getDownloadURL()
+        storage.ref(`${type}`).child(`${userDetails.userId}`).getDownloadURL()
           .then(url => {
             console.log(url, type);
             if (type === 'profilepictures') {
@@ -60,6 +72,7 @@ export default function EditModal(props) {
             if (type === 'coverpictures') {
               setCoverPic(url);
             }
+            setLoading(false);
           })
 
       }
@@ -68,26 +81,20 @@ export default function EditModal(props) {
   }
 
   const saveUserDetails = () => {
-    const updatedUserDetails = {
-      ...profileDetails,
+    let updatedUserDetails = {
+      ...userDetails,
       username: newUserName.current.value,
       bio: newBio.current.value,
       location: newLocation.current.value,
-      coverPicture: coverPic,
-      photoUrl: dp
     }
+    if (coverPic) updatedUserDetails = {...updatedUserDetails, coverPicture: coverPic};
+    if (dp) updatedUserDetails = {...updatedUserDetails, photoUrl: dp};
     console.log('saved->', updatedUserDetails);
     onSave(updatedUserDetails);
   }
 
   const handleCloseModal = () => {
     onClose();
-    if(profileDetails.photoUrl){
-      setDp(profileDetails.photoUrl);
-    } else setDp(sampleDp);
-    if(profileDetails.coverPicture){
-      setCoverPic(profileDetails.coverPicture);
-    } else setCoverPic(sampleCp);
   }
 
   return (
@@ -96,7 +103,7 @@ export default function EditModal(props) {
         <div className="editModal">
           <div className="editModalHeader">
             <div className="editModalHeaderLeft">
-              <div className="closeIcon" onClick={handleCloseModal}><CloseIcon /></div>
+              <div className="closeIcon" onClick={onClose}><CloseIcon /></div>
               <h2>Edit Profile</h2>
             </div>
             <div className="editModalHeaderRight">
@@ -105,11 +112,12 @@ export default function EditModal(props) {
           </div>
           <div className="editModalUploadSection">
             <div className="uploadCoverPicture">
-              <img className="editModalCoverPicture" src={coverPic} alt="cover photo" />
+              {loading && <Spinner open={loading}/>}
+              <img className="editModalCoverPicture" src={coverPic || sampleCp} alt="cover photo" />
               <div className="uploadImageBtn"><RoundButton onChange={(e) => handlePictureUpload(e, 'coverpictures')} /></div>
             </div>
             <div className="uploadDisplayPicture">
-              <img className="editModalDisplayPicture" src={dp} alt="profile picture" />
+              <img className="editModalDisplayPicture" src={dp || sampleDp} alt="profile picture" />
               <div className="uploadImageBtn"><RoundButton onChange={(e) => handlePictureUpload(e, 'profilepictures')} /></div>
             </div>
           </div>

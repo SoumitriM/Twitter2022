@@ -12,9 +12,10 @@ export default function Profile() {
   const [openEditModal, setOpenEditModal] = useState(false);
 
   useEffect(() => {
+    console.log('before', currUserDet);
     db.ref(`users/${auth().currentUser.uid}`).on("value", snapshot => {
       const userDetail = snapshot.val();
-      setCurrUserDet({...userDetail});
+      setCurrUserDet({ ...userDetail });
       console.log(userDetail);
     })
   }, []);
@@ -48,24 +49,25 @@ export default function Profile() {
             <p className="tweet-username">{currUserDet.username}</p>
             <p className="tweet-userId">@{currUserDet.userId}</p>
             <div className="additionalUserDetails">
-            {currUserDet.bio && <p>{currUserDet.bio}</p>}
-            {currUserDet.location && <p className='greyFont'><LocationOnOutlinedIcon/>{currUserDet.location}</p>}
-            <div className="followDetails">
-              <p className="greyFont"><span className="blackFont">5</span> Following</p>
-              <p className="greyFont"><span className="blackFont">10</span> Followers</p>
+              {currUserDet.bio && <p>{currUserDet.bio}</p>}
+              {currUserDet.location && <p className='greyFont'><LocationOnOutlinedIcon />{currUserDet.location}</p>}
+              <div className="followDetails">
+                <p className="greyFont"><span className="blackFont">5</span> Following</p>
+                <p className="greyFont"><span className="blackFont">10</span> Followers</p>
+              </div>
             </div>
-            </div>
-            
+
           </div>
         </div>
       </Card>
-      <EditModal 
-        coverPicture={coverPicture}
-        open={openEditModal}
-        onClose={handleCLoseModal}
-        onSave={updateUserDetails}
-        profileDetails={currUserDet}
-      />
+      {openEditModal &&
+        <EditModal
+          coverPicture={coverPicture}
+          open={openEditModal}
+          onClose={handleCLoseModal}
+          onSave={updateUserDetails}
+          profileDetails={currUserDet}
+        />}
     </div>
   );
 }
