@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import NewTweet from "../../components/NewTweet";
+import NewTweet from '../../components/NewTweet';
 import Tweet from "../../components/Tweet";
 import {db} from "../../services/index";
 import PageHeader from '../../customComponents/PageHeader';

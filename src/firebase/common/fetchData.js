@@ -1,4 +1,4 @@
-import { db, auth } from "../services/index";
+import { db, auth } from "../services";
 
 export const getUserDetails = () => {
   const res = db.ref('users/' + auth().currentUser.uid).on("value", snapshot => {

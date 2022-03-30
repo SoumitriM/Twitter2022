@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import { db, auth } from '../../services/index';
-import { storage } from '../../services/index';
+import { db, auth, storage } from '../../services/';
 import { Dialog } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
@@ -9,6 +8,7 @@ import TwitterButton from '../../customComponents/TwitterButton';
 import { Spinner } from '../../customComponents/Spinner';
 import sampleDp from '../../constants/blankDp.jpeg';
 import sampleCp from '../../constants/coverPicture.png';
+import './style.css';
 
 export default function EditModal(props) {
   const { open, onSave, onClose, profileDetails } = props;

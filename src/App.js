@@ -8,7 +8,7 @@ import PublicRoute from "./firebase/components/PublicRoute";
 import SignUp from "./firebase/pages/SignUp";
 import Login from "./firebase/pages/Login";
 import { useEffect, useState } from "react";
-import { auth } from './firebase/services/index';
+import { auth } from './firebase/services';
 import Homepage from "./firebase/pages/Homepage";
 
 function App() {

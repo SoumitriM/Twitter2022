@@ -1,0 +1,10 @@
+.pageHeader {
+    display: flex;
+    padding: 10px;
+    position: sticky;
+    top: 0px;
+    z-index: 1;
+    background-color: rgb(18, 39, 58);
+    border: 1px solid rgba(69, 102, 151, 0.644);
+    border-bottom-color: transparent;
+  }

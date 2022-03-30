@@ -1,0 +1,38 @@
+  .tweet {
+    margin: 20px 0;
+    font-size: 80%;
+  }
+  
+  .tweet-header {
+    margin-bottom: 1rem;
+  }
+  .tweet-header li {
+    display: inline-block;
+    list-style: none;
+  }
+  .tweet-username,
+  .tweet-userId {
+    font-weight: bold;
+    padding-right: 0.2rem;
+  }
+  
+  .tweet-userId,
+  .tweet-time {
+    font-weight: lighter;
+    color: grey;
+  }
+
+  .tweetlist {
+    padding: 2rem;
+    border: 1px solid rgba(69, 102, 151, 0.644);
+    border-bottom-color: transparent;
+  }
+  
+  .tweetlist:hover {
+    cursor: pointer;
+    background-color: rgba(42, 75, 104, 0.651);
+  }
+
+  :host .ionicon {
+    stroke: white;
+}

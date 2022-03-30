@@ -1,0 +1,29 @@
+.newTweet-container {
+  padding: 2rem 2rem 2rem 0rem;
+  display: flex;
+  border: 1px solid rgba(69, 102, 151, 0.644);
+    border-bottom-color: transparent;
+}
+
+.tweet-form {
+  width: 100%;
+}
+ input {
+    padding: 10px 0 30px 0;
+    width: 100%;
+    border-color: transparent;
+    margin-bottom: 20px;
+    text-indent: 20px;
+  }
+  .tweet-form input:focus {
+    outline: none;
+    box-shadow: 0 0 20px #719ece4d;
+    padding: auto 10px;
+  }
+  .tweet-form ::placeholder {
+    font-family: "Lato", "Arial";
+  }
+
+  :host .ionicon {
+    stroke: white;
+}

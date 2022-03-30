@@ -1,13 +1,12 @@
 import { Grid } from '@material-ui/core';
-import profilePic from '../constants/dummy-profile-pic.png';
+import profilePic from '../../constants/dummy-profile-pic.png';
 import { makeStyles } from '@material-ui/core';
-import Card from '../customComponents/Card';
-import { db, auth } from '../services/index';
-import TwitterButton from '../customComponents/TwitterButton';
-import ActionBar from '../customComponents/ActionBar';
+import Card from '../../customComponents/Card';
+import { db, auth, storage } from '../../services';
+import TwitterButton from '../../customComponents/TwitterButton';
+import ActionBar from '../../customComponents/ActionBar';
 import { useEffect, useRef, useState } from 'react';
-// import {storage} from "../firebase";
-import { storage } from '../services/index';
+import './style.css';
 
 const NewTweet = () => {
   const newTweetInput = useRef("");
@@ -85,20 +84,14 @@ const NewTweet = () => {
     newReference.set(obj);
   };
   return (
-    <Card>
-      <Grid container>
-        <Grid item xs={2} md={2}>
-          <img className="profile-pic" src={currUserDet.photoUrl} alt="profile-picture" />
-        </Grid>
-        <Grid item xs={10} md={10}>
+      <div className='newTweet-container'>
+          <div className="profile-pic-div"><img className="profile-pic" src={currUserDet.photoUrl} alt="profile-picture" /></div>
           <div className="tweet-form">
-            <input type="text" name="tweet" placeholder="What's Happening?" ref={newTweetInput} />
+            <input type="textField" className="tweet-textfield" cols="5" rows="5" placeholder="What's Happening?" ref={newTweetInput} />
             <ActionBar onTweetBtnClick={newTweetHandler} />
           </div>
           {isImage && <p>{image.name}</p>}
-        </Grid>
-      </Grid>
-    </Card>
+      </div>
 
 
   );

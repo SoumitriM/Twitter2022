@@ -1,11 +1,10 @@
 import { Grid } from '@material-ui/core';
-import profilePic from '../constants/dummy-profile-pic.png';
-import ReplyDialog from './ReplyDialog';
+import ReplyDialog from '../ReplyDialog';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import Card from '../customComponents/Card';
-import { db, auth } from '../services/index';
-import { timestamp, ConvertToArray } from '../../utils';
+import { db, auth } from '../../services';
+import { timestamp, ConvertToArray } from '../../../utils';
+import './style.css';
 
 
 const Tweet = (props) => {
@@ -138,8 +137,8 @@ const Tweet = (props) => {
   const likeIcon = like ? "heart" : "heart-outline";
 
   return (
-    <div>
-      <Card onClick={(e) => actionHandler(e)}>
+    <div className='tweetlist'>
+      <div onClick={(e) => actionHandler(e)}>
         <Grid container>
           <Grid item xs={2} md={2}>
             <img className="profile-pic" src={dp} alt="user pic" />
@@ -166,7 +165,7 @@ const Tweet = (props) => {
         {showReplies && replyData.length > 0 && replyData.map((reply) => (
         <Tweet item={reply} showReplies="false" parentId={newIdString} />
       ))}
-      </Card>
+      </div>
       <ReplyDialog openDialog={openReplyDialog} onReply={handleReplyMessage} />
     </div>
   )

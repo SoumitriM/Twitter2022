@@ -1,12 +1,11 @@
 import { useRef, useState, useEffect } from 'react';
 import { Button } from '@material-ui/core';
-import profilePic from '../constants/profile_pic.jpg';
+import profilePic from '../../constants/profile_pic.jpg';
 import { Dialog } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
-import Card from '../customComponents/Card';
-import TwitterButton from '../customComponents/TwitterButton';
-import ActionBar from '../customComponents/ActionBar';
+import TwitterButton from '../../customComponents/TwitterButton';
+import ActionBar from '../../customComponents/ActionBar';
 
 export default function ReplyDialog(props) {
   const { openDialog, onReply } = props;
@@ -28,10 +27,8 @@ export default function ReplyDialog(props) {
   }
 
   return (
-    <div>
       <Dialog open={openDialog} >
         <div className="replyDialog">
-          <Card>
             <Grid container>
               <Grid item xs={2} md={2}>
                 <img className="profile-pic" src={profilePic} alt="profile-picture" />
@@ -44,10 +41,7 @@ export default function ReplyDialog(props) {
                 {isImage && <p>{image.name}</p>}
               </Grid>
             </Grid>
-          </Card>
-
         </div>
       </Dialog>
-    </div>
   );
 }

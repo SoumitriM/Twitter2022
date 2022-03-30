@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Tweet from "../../components/Tweet";
 import {cloneDeep} from 'lodash';
-import { db } from "../../services/index";
+import { db } from "../../services";
 import PageHeader from "../../customComponents/PageHeader";
 
 export default function Status () {
