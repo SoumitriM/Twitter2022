@@ -38,7 +38,6 @@ export default function Profile() {
   return (
     <div>
       <PageHeader title={currUserDet.username} subheading="3 Tweets" />
-      <Card>
         <div className="userProfile">
           <img className="profileCoverPhoto" src={currUserDet.coverPicture || coverPicture} alt="cover photo" />
           <img className="displayPicture" src={currUserDet.photoUrl || blankDp} alt="profile picture" />
@@ -59,7 +58,6 @@ export default function Profile() {
 
           </div>
         </div>
-      </Card>
       {openEditModal &&
         <EditModal
           coverPicture={coverPicture}

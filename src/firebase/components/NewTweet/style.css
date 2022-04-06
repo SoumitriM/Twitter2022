@@ -1,8 +1,8 @@
 .newTweet-container {
   padding: 2rem 2rem 2rem 0rem;
   display: flex;
-  border: 1px solid rgba(69, 102, 151, 0.644);
-    border-bottom-color: transparent;
+  border: 1px solid var(--border-color);
+  border-bottom-color: transparent;
 }
 
 .tweet-form {

@@ -137,32 +137,29 @@ const Tweet = (props) => {
   const likeIcon = like ? "heart" : "heart-outline";
 
   return (
-    <div className='tweetlist'>
-      <div onClick={(e) => actionHandler(e)}>
-        <Grid container>
-          <Grid item xs={2} md={2}>
-            <img className="profile-pic" src={dp} alt="user pic" />
-          </Grid>
-          <Grid item xs={10} md={10}>
-            <div className="tweet-header">
-              <li key={item.username} className="tweet-username">{item.username}</li>
-              <li key={item.userId} className="tweet-userId">@{item.userId}</li>
-              <li key={item.id} style={{ fontSize: "0.3rem", margin: "0 0.5rem 0 0.5rem", color: "grey" }}><ion-icon name="time"></ion-icon></li>
-              <li key={time} style={{ color: "grey" }}>{time}</li>
-            </div>
-            {item.image && <img src={item.imageURL} className="tweet-image" alt="tweet-image" />}
-            <p>{props.item.tweet}</p>
-            <div className="tweet-icons">
-              <ul>
-                <li data-action="reply"><ion-icon name="chatbubble-outline"></ion-icon><span className="react-count">{replyData.length > 0 ? replyData.length : ''}</span></li>
-                <li><ion-icon name="repeat-outline"></ion-icon></li>
-                <li data-action="like"><ion-icon name={likeIcon}></ion-icon><span className="react-count">{likeCount}</span></li>
-                <li><ion-icon name="share-outline"></ion-icon></li>
-              </ul>
-            </div>
-          </Grid>
-        </Grid>
-        {showReplies && replyData.length > 0 && replyData.map((reply) => (
+    <div className='tweet-container' onClick={(e) => actionHandler(e)}>
+      <div className="profile-pic-div">
+        <img className="profile-pic" src={dp} alt="user pic" />
+      </div>
+      <div className='tweet-body'>
+        <div className="tweet-header">
+          <li key={item.username} className="tweet-username">{item.username}</li>
+          <li key={item.userId} className="tweet-userId">@{item.userId}</li>
+          <li key={item.id} style={{ fontSize: "0.3rem", margin: "0 0.5rem 0 0.5rem", color: "grey" }}><ion-icon name="time"></ion-icon></li>
+          <li key={time} style={{ color: "grey" }}>{time}</li>
+        </div>
+        {item.image && <img src={item.imageURL} className="tweet-image" alt="tweet-image" />}
+        <p className="tweet-content">{props.item.tweet}</p>
+        <div className="tweet-icons">
+          <ul>
+            <li data-action="reply"><ion-icon name="chatbubble-outline"></ion-icon><span className="react-count">{replyData.length > 0 ? replyData.length : ''}</span></li>
+            <li><ion-icon name="repeat-outline"></ion-icon></li>
+            <li data-action="like"><ion-icon name={likeIcon}></ion-icon><span className="react-count">{likeCount}</span></li>
+            <li><ion-icon name="share-outline"></ion-icon></li>
+          </ul>
+        </div>
+      
+      {showReplies && replyData.length > 0 && replyData.map((reply) => (
         <Tweet item={reply} showReplies="false" parentId={newIdString} />
       ))}
       </div>

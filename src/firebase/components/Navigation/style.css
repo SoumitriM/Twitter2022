@@ -1,24 +1,5 @@
-.colorBtn {
-  background-color: rgb(53, 146, 233);
-  padding: 15px 20px;
-  border-radius: 25px;
-  z-index: 1;
-  display: inline-block;
-  font-weight: bold;
-  text-align: center;
-}
-
-.colorBtn:hover {
-    background-color: rgb(11, 95, 151);
-    cursor: pointer;
-  }
-
-  .btn-Lg {
-      width: 80%;
-  }
-
   .MuiSvgIcon-root {
-    color: white;
+    color: var(--font-color);
     font-size: 1.9rem !important;
   }
 

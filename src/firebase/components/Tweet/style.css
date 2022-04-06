@@ -2,7 +2,20 @@
     margin: 20px 0;
     font-size: 80%;
   }
-  
+  .tweet-container {
+    padding: 2rem 2rem 2rem 0rem;
+    display: flex;
+    border: 1px solid var(--border-color);
+    border-bottom-color: transparent;
+  }
+
+  .tweet-container:hover {
+    background-color: var(--highlight-color);
+    cursor: pointer;
+  }
+  .tweet-content {
+    padding: 0rem 0rem 2rem 0rem;
+  }
   .tweet-header {
     margin-bottom: 1rem;
   }
@@ -15,17 +28,20 @@
     font-weight: bold;
     padding-right: 0.2rem;
   }
-  
+  .tweet-body {
+    width: 100%;
+  }
   .tweet-userId,
   .tweet-time {
     font-weight: lighter;
-    color: grey;
+    color: var(--font-color);
   }
 
   .tweetlist {
     padding: 2rem;
-    border: 1px solid rgba(69, 102, 151, 0.644);
+    border: 1px solid var(--border-color);
     border-bottom-color: transparent;
+    display: flex;
   }
   
   .tweetlist:hover {

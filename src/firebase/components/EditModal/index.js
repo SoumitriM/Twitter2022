@@ -5,7 +5,7 @@ import { TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import RoundButton from '../../customComponents/RoundButton';
 import TwitterButton from '../../customComponents/TwitterButton';
-import { Spinner } from '../../customComponents/Spinner';
+import Spinner from '../../customComponents/Spinner';
 import sampleDp from '../../constants/blankDp.jpeg';
 import sampleCp from '../../constants/coverPicture.png';
 import './style.css';
@@ -80,13 +80,15 @@ export default function EditModal(props) {
     );
   }
 
-  const saveUserDetails = () => {
-    let updatedUserDetails = {
+  const handleUserDetailsUpdate = (e) => {
+    setUserDetails({
       ...userDetails,
-      username: newUserName.current.value,
-      bio: newBio.current.value,
-      location: newLocation.current.value,
-    }
+      [e.target.name] : e.target.value
+    });
+  };
+
+  const saveUserDetails = () => {
+    let updatedUserDetails = {...userDetails};
     if (coverPic) updatedUserDetails = {...updatedUserDetails, coverPicture: coverPic};
     if (dp) updatedUserDetails = {...updatedUserDetails, photoUrl: dp};
     console.log('saved->', updatedUserDetails);
@@ -122,9 +124,9 @@ export default function EditModal(props) {
             </div>
           </div>
           <div className="editModalUpdateSection">
-            <TextField label="Name" variant="outlined" inputRef={newUserName} />
-            <TextField label="Bio" variant="outlined" multiline rows={5} inputRef={newBio} />
-            <TextField label="Location" variant="outlined" inputRef={newLocation} />
+            <TextField label="Name" name="username" variant="outlined" value={userDetails.username || ""} onChange={handleUserDetailsUpdate}/>
+            <TextField label="Bio" name="bio" variant="outlined" value={userDetails.bio || ""} multiline rows={5} onChange={handleUserDetailsUpdate}/>
+            <TextField label="Location" name="location" variant="outlined" value={userDetails.location || ""} onChange={handleUserDetailsUpdate}/>
           </div>
 
         </div>

@@ -6,11 +6,22 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 import TwitterButton from '../../customComponents/TwitterButton';
 import ActionBar from '../../customComponents/ActionBar';
+import { db, auth, storage } from '../../services';
 
 export default function ReplyDialog(props) {
   const { openDialog, onReply } = props;
   const [isImage, setIsImage] = useState(false);
   const [image, setImage] = useState(null);
+  const [currUserDet, setCurrUserDet] = useState({});
+
+  useEffect(() => {
+    db.ref('users/' + auth().currentUser.uid).on("value", snapshot => {
+      const userDetail = snapshot.val();
+      setCurrUserDet(userDetail);
+      // console.log(userDetail);
+    })
+  }, []);
+
 
   const newTweetInput = useRef("");
 
@@ -28,20 +39,14 @@ export default function ReplyDialog(props) {
 
   return (
       <Dialog open={openDialog} >
-        <div className="replyDialog">
-            <Grid container>
-              <Grid item xs={2} md={2}>
-                <img className="profile-pic" src={profilePic} alt="profile-picture" />
-              </Grid>
-              <Grid item xs={10} md={10}>
-                <div className=" tweet-form">
-                  <input type="text" name="tweet" placeholder="Type your reply here" ref={newTweetInput} />
-                  <ActionBar onTweetBtnClick={newReplyHandler} onImageClick={handleImageUpload}/>
-                </div>
-                {isImage && <p>{image.name}</p>}
-              </Grid>
-            </Grid>
-        </div>
+        <div className='replyDialog'>
+          <div className="profile-pic-div"><img className="profile-pic" src={currUserDet.photoUrl} alt="profile-picture" /></div>
+          <div className="tweet-form">
+            <input type="textField" className="tweet-textfield" cols="5" rows="5" placeholder="Type your reply here" ref={newTweetInput} />
+            <ActionBar onTweetBtnClick={newReplyHandler} onImageClick={handleImageUpload}/>
+          </div>
+          {isImage && <p>{image.name}</p>}
+      </div>
       </Dialog>
   );
 }

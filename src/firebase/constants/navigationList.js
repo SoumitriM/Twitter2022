@@ -58,12 +58,5 @@ export const navigationList = [
         path: '/profile',
         // exact: true,
         icon: <PersonOutlineIcon />
-    },
-    {
-        name: "More",
-        path:"/more",
-        // exact: true,
-        icon: <MoreOutlinedIcon />
     }
-
 ];

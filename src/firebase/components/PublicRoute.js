@@ -4,6 +4,7 @@ import Status from "../pages/Status";
 import SignUp from "../pages/SignUp";
 import Login from "../pages/Login";
 import Homepage from "../pages/Homepage";
+
 export default function PublicRoute({component: Component, isAuthenticated, ...rest}) {
 
   const publicRoutes = [

@@ -6,7 +6,7 @@ export default function RoundButton({onChange}) {
 
   return (
     <>
-    <input type="file" id="file" hidden onChange={onChange}/>
+    <input type="file" id="file" onChange={onChange}/>
     <div className="roundButton">
       <CameraEnhanceOutlinedIcon/>
     </div>

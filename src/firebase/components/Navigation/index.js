@@ -1,25 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import Card from "../../customComponents/Card";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { navigationList } from "../../constants/navigationList";
 import { db, auth } from '../../services';
 import { signOut } from "../../services/auth";
 import { useHistory, useParams } from "react-router-dom";
-import TwitterButton from "../../customComponents/TwitterButton";
+import Brightness4OutlinedIcon from '@material-ui/icons/Brightness4Outlined';
 import './style.css';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    maxWidth: 360,
-    backgroundColor: "black",
-    color: "white"
-  },
-}));
 
 function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
@@ -27,16 +16,20 @@ function ListItemLink(props) {
 
 const Navigation = () => {
   const history = useHistory();
-  const classes = useStyles();
   const [currUserDet, setCurrUserDet] = useState({});
+  const [themeType, setThemeType] = useState("Light");
 
   useEffect(() => {
     db.ref('users/' + auth().currentUser.uid).on("value", snapshot => {
       const userDetail = snapshot.val();
       setCurrUserDet(userDetail);
-      // console.log(userDetail);
     })
-  }, []);
+    const defaultTheme = localStorage.getItem("twitterTheme");
+    console.log('default', defaultTheme);
+    if (defaultTheme && defaultTheme === "Dark") {
+      setThemeType("dark");
+    }
+  }, [themeType]);
 
   const handleSignOut = () => {
     signOut().then((res) => {
@@ -52,6 +45,20 @@ const Navigation = () => {
     history.push(path);
   }
 
+  const handleTheme = () =>  {
+    console.log(themeType);
+    if (themeType === "Light") {
+      setThemeType("Dark");
+      localStorage.setItem("twitterTheme", 'Dark');
+      document.documentElement.setAttribute("data-theme","dark");
+    }
+    else {
+      setThemeType("Light");
+      localStorage.setItem("twitterTheme", 'Light');
+      document.documentElement.setAttribute("data-theme","Light");
+    }
+  };
+
   return (
     <div className="navlist">
       <List component="nav" aria-label="main mailbox folders">
@@ -63,6 +70,12 @@ const Navigation = () => {
             <ListItemText primary={item.name} />
           </ListItem>
         ))}
+        <ListItem key="theme" button onClick={handleTheme}>
+            <ListItemIcon>
+              <Brightness4OutlinedIcon />
+            </ListItemIcon>
+            <ListItemText primary={themeType + " Mode"} />
+          </ListItem>
         <ListItem key="tweetBtn" className="tweetBtn">
         <div className="colorBtn btn-Lg" onClick={handleSignOut}>Log Out</div>
         </ListItem>

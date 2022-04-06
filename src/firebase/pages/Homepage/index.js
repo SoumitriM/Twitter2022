@@ -3,13 +3,16 @@ import NewTweet from '../../components/NewTweet';
 import Tweet from "../../components/Tweet";
 import {db} from "../../services/index";
 import PageHeader from '../../customComponents/PageHeader';
-import { Spinner } from '../../customComponents/Spinner';
+import Spinner from '../../customComponents/Spinner';
+import TwitterButton from '../../customComponents/TwitterButton';
 
 export default function Homepage() {
   const [tweets, setTweets] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const fetchMoviesHandler = async () => {
+  const fetchTweetsHandler = async () => {
     try {
+      setIsLoading(true);
       db.ref('tweets').on("value", (snapshot) => {
         let tweetList = [];
         snapshot.forEach((snap) => {
@@ -21,19 +24,21 @@ export default function Homepage() {
           return new Date(b.time) - new Date(a.time);
         });
         setTweets(sortedTweetList);
+        setIsLoading(false);
       });
     } catch (error) {
       // this.setState({ readError: error.message });
+      setIsLoading(false);
     }
   }
   useEffect(() => {
-    fetchMoviesHandler();
+    fetchTweetsHandler();
   }, []);
 
   return (
     <div>
       <PageHeader title="Home" />
-      <Spinner/>
+      <Spinner open={isLoading}/>
       <NewTweet />
       <div>
         {tweets.map((item) => <Tweet key={item.id} item={item} homepage />)}
