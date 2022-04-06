@@ -6,7 +6,7 @@ import { db } from "../../services";
 import PageHeader from "../../customComponents/PageHeader";
 
 export default function Status () {
-    let {userName, statusId} = useParams();
+    let {statusId} = useParams();
     const [item, setItem] = useState({});
 
     const fetchStatusHandler = async () => {

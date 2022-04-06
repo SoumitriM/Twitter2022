@@ -8,7 +8,7 @@ import './style.css';
 
 
 const Tweet = (props) => {
-  const { item, showReplies, parentId } = props;
+  const { item, showReplies, parentId, isReply, parentUserId} = props;
   const history = useHistory();
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
@@ -34,7 +34,6 @@ const Tweet = (props) => {
     db.ref('users/' + auth().currentUser.uid).on("value", snapshot => {
       const userDetail = snapshot.val();
       setCurrUserDet(userDetail);
-      // console.log(userDetail);
     })
   }, [item]);
   useEffect(() => {
@@ -44,9 +43,6 @@ const Tweet = (props) => {
         setDp(ddp.photoUrl);
         console.log('dp', ddp.photoUrl, item.uid);
       }
-
-      // setCurrUserDet(userDetail);
-      // console.log(userDetail);
     })
   }, [item]);
 
@@ -105,7 +101,7 @@ const Tweet = (props) => {
   }
 
   const showTweetDetailsHandler = (e) => {
-    history.push(`/${item.username}/${item.id}`);
+    history.push(`/${item.userId}/status/${item.id}`);
   }
 
   async function addReplyHandler(newReply, id) {
@@ -137,7 +133,8 @@ const Tweet = (props) => {
   const likeIcon = like ? "heart" : "heart-outline";
 
   return (
-    <div className='tweet-container' onClick={(e) => actionHandler(e)}>
+    <div>
+    <div className='tweet-container' data-show="details" onClick={(e) => actionHandler(e)}>
       <div className="profile-pic-div">
         <img className="profile-pic" src={dp} alt="user pic" />
       </div>
@@ -148,6 +145,7 @@ const Tweet = (props) => {
           <li key={item.id} style={{ fontSize: "0.3rem", margin: "0 0.5rem 0 0.5rem", color: "grey" }}><ion-icon name="time"></ion-icon></li>
           <li key={time} style={{ color: "grey" }}>{time}</li>
         </div>
+        {isReply && <div>Replying to {parentUserId}</div>}
         {item.image && <img src={item.imageURL} className="tweet-image" alt="tweet-image" />}
         <p className="tweet-content">{props.item.tweet}</p>
         <div className="tweet-icons">
@@ -158,12 +156,12 @@ const Tweet = (props) => {
             <li><ion-icon name="share-outline"></ion-icon></li>
           </ul>
         </div>
-      
-      {showReplies && replyData.length > 0 && replyData.map((reply) => (
-        <Tweet item={reply} showReplies="false" parentId={newIdString} />
-      ))}
       </div>
       <ReplyDialog openDialog={openReplyDialog} onReply={handleReplyMessage} />
+    </div>
+    {showReplies && replyData.length > 0 && replyData.map((reply) => (
+        <Tweet item={reply} parentId={newIdString} isReply parentUserId={item.userId}/>
+    ))}
     </div>
   )
 };

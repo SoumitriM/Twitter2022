@@ -7,7 +7,7 @@ import Login from "../pages/Login";
 import Profile from "../pages/Profile";
 export default function PrivateRoute(props) {
     const { isAuthenticated } = props;
-    let { userName, statusId } = useParams();
+    let { userId, statusId } = useParams();
 
     const privateRoutes = [
         {
@@ -56,7 +56,7 @@ export default function PrivateRoute(props) {
         },
         {
             name: "Status",
-            path: `/:userName/:statusId`,
+            path: `/:userId/status/:statusId`,
             exact: true,
             component: Status
         },
